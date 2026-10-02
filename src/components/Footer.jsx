@@ -1,0 +1,76 @@
+"use client";
+
+import Link from "next/link";
+import { Facebook, Instagram, Twitter } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+
+export default function Footer() {
+  const { data: settings } = trpc.commerce.settings.get.useQuery();
+
+  return (
+    <footer className="bg-foreground text-background py-16 px-4 lg:px-8 mt-auto border-t border-border/10">
+      <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+        {/* Brand */}
+        <div className="col-span-1 md:col-span-2">
+          <Link href="/">
+            <div className="mb-6 cursor-pointer hover:opacity-80 transition-opacity inline-block">
+              <img src="/image.png" alt="AMAR JEANS" className="h-10 object-contain" />
+            </div>
+          </Link>
+          <div className="mb-8 space-y-2">
+            <p className="text-background/80 font-bold uppercase tracking-widest text-xs leading-relaxed max-w-sm">
+              <span className="text-primary block mb-1">Location:</span>
+              {settings?.storeAddress || "opp new fire brigade Chinchpada nalambi road amb (w)\nchnchpad rood new fire brigade opp titwala road ambernath w, Ambarnath 421501"}
+            </p>
+            <p className="text-background/80 font-bold uppercase tracking-widest text-xs leading-relaxed max-w-sm mt-4">
+              <span className="text-primary block mb-1">Phone / Support:</span>
+              {settings?.supportPhone || "+91 9834557990 / +91 8149987987"}
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href={settings?.instagramUrl || "https://www.instagram.com/amarjeans990/"} target="_blank" rel="noreferrer" className="w-10 h-10 bg-background/10 flex items-center justify-center hover:bg-primary transition-colors text-background">
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a href="#" className="w-10 h-10 bg-background/10 flex items-center justify-center hover:bg-primary transition-colors text-background">
+              <Facebook className="w-5 h-5" />
+            </a>
+            <a href="#" className="w-10 h-10 bg-background/10 flex items-center justify-center hover:bg-primary transition-colors text-background">
+              <Twitter className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Links */}
+        <div>
+          <h3 className="text-sm font-black uppercase tracking-widest mb-6">Shop Denim</h3>
+          <ul className="space-y-4">
+            <li><Link href="/products"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">All Products</span></Link></li>
+            <li><Link href="/products?cat=slim-fit-jeans"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">Slim Fit Jeans</span></Link></li>
+            <li><Link href="/products?cat=regular-fit-jeans"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">Regular Fit</span></Link></li>
+            <li><Link href="/products?cat=cargo-jeans"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">Cargo Jeans</span></Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-black uppercase tracking-widest mb-6">Support & Enquiry</h3>
+          <ul className="space-y-4">
+            <li><Link href="/contact"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">Contact & Enquiry</span></Link></li>
+            <li><Link href="/about"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">About Us</span></Link></li>
+            <li><Link href="/cart"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">View Cart / Enquiry</span></Link></li>
+            <li><Link href="/signin"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">Admin Login</span></Link></li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="max-w-[1440px] mx-auto mt-16 pt-8 border-t border-background/20 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-background/60">
+          &copy; {new Date().getFullYear()} AMAR JEANS. All Rights Reserved.
+        </p>
+        <div className="flex gap-4">
+          <Link href="/about"><span className="text-[10px] font-bold uppercase tracking-widest text-background/60 cursor-pointer hover:text-primary">Privacy Policy</span></Link>
+          <Link href="/about"><span className="text-[10px] font-bold uppercase tracking-widest text-background/60 cursor-pointer hover:text-primary">Terms of Service</span></Link>
+        </div>
+      </div>
+    </footer>
+  );
+}

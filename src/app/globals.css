@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #111111;
+  --color-card: #ffffff;
+  --color-card-foreground: #111111;
+  --color-primary: #dc2626;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f3f4f6;
+  --color-secondary-foreground: #111111;
+  --color-muted: #f3f4f6;
+  --color-muted-foreground: #6b7280;
+  --color-border: #e5e7eb;
+  --color-input: #e5e7eb;
+  --color-ring: #111111;
+  --font-family-sans: 'Outfit', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #111111;
+    --card: #ffffff;
+    --card-foreground: #111111;
+    --primary: #dc2626;
+    --primary-foreground: #ffffff;
+    --secondary: #f3f4f6;
+    --secondary-foreground: #111111;
+    --muted: #f3f4f6;
+    --muted-foreground: #6b7280;
+    --border: #e5e7eb;
+    --input: #e5e7eb;
+    --ring: #111111;
+  }
+
+  .dark {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --card: #1e293b;
+    --card-foreground: #f8fafc;
+    --primary: #ef4444;
+    --primary-foreground: #ffffff;
+    --secondary: #334155;
+    --secondary-foreground: #f8fafc;
+    --muted: #334155;
+    --muted-foreground: #94a3b8;
+    --border: #334155;
+    --input: #334155;
+    --ring: #f8fafc;
+  }
+
+  * {
+    border-color: var(--border);
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 118%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Utility classes using CSS custom properties (work without Tailwind color mapping) */
+.bg-background { background-color: var(--background) !important; }
+.bg-foreground { background-color: var(--foreground) !important; }
+.bg-card { background-color: var(--card) !important; }
+.bg-primary { background-color: var(--primary) !important; }
+.bg-secondary { background-color: var(--secondary) !important; }
+.bg-muted { background-color: var(--muted) !important; }
+.bg-border { background-color: var(--border) !important; }
+
+.text-background { color: var(--background) !important; }
+.text-foreground { color: var(--foreground) !important; }
+.text-card-foreground { color: var(--card-foreground) !important; }
+.text-primary { color: var(--primary) !important; }
+.text-primary-foreground { color: var(--primary-foreground) !important; }
+.text-secondary-foreground { color: var(--secondary-foreground) !important; }
+.text-muted-foreground { color: var(--muted-foreground) !important; }
+
+.border-border { border-color: var(--border) !important; }
+.border-primary { border-color: var(--primary) !important; }
+.border-foreground { border-color: var(--foreground) !important; }
+.border-background { border-color: var(--background) !important; }
+
+.fill-primary { fill: var(--primary) !important; }
+
+/* ── Hover utilities ── */
+.hover\:bg-primary:hover { background-color: var(--primary) !important; }
+.hover\:bg-foreground:hover { background-color: var(--foreground) !important; }
+.hover\:bg-background:hover { background-color: var(--background) !important; }
+.hover\:bg-muted:hover { background-color: var(--muted) !important; }
+.hover\:text-primary:hover { color: var(--primary) !important; }
+.hover\:text-foreground:hover { color: var(--foreground) !important; }
+.hover\:text-background:hover { color: var(--background) !important; }
+.hover\:border-foreground:hover { border-color: var(--foreground) !important; }
+.hover\:text-primary-foreground:hover { color: var(--primary-foreground) !important; }
+
+/* ── Group-hover utilities ── */
+.group:hover .group-hover\:text-background { color: var(--background) !important; }
+.group:hover .group-hover\:text-foreground { color: var(--foreground) !important; }
+.group:hover .group-hover\:text-primary    { color: var(--primary) !important; }
+.group:hover .group-hover\:bg-foreground   { background-color: var(--foreground) !important; }
+.group:hover .group-hover\:bg-background   { background-color: var(--background) !important; }
+
+/* ── When a parent hovers to dark bg, ALL its children text should become white ── */
+/* This covers the category boxes and any card that flips bg-foreground on hover */
+.hover\:bg-foreground:hover,
+.hover\:bg-foreground:hover * {
+  color: var(--background) !important;
+}
+/* But keep primary color for accents inside those hovered boxes */
+.hover\:bg-foreground:hover .text-primary,
+.hover\:bg-foreground:hover .fill-primary {
+  color: var(--primary) !important;
+  fill: var(--primary) !important;
+}
+
+/* When bg-foreground is applied as group-hover on children */
+.group:hover .group-hover\:bg-foreground,
+.group:hover .group-hover\:bg-foreground * {
+  color: var(--background) !important;
+}
+
+.selection\:bg-primary ::selection { background-color: var(--primary); }
+.selection\:text-white ::selection { color: #ffffff; }
+
+/* Scrollbar utilities */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Ensure min-h-screen works */
+.min-h-screen { min-height: 100vh; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.antialiased { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.flex-1 { flex: 1 1 0%; }
