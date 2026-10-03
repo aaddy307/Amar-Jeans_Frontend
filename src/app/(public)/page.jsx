@@ -95,24 +95,24 @@ function HeroBanner() {
             {/* AMAR */}
             <div style={{ overflow:"hidden", marginBottom:6 }}>
               <motion.div initial={{ y:"110%" }} animate={loaded?{ y:0 }:{}} transition={{ duration:0.9, delay:0.2, ease:[0.76,0,0.24,1] }}>
-                <span style={{ display:"block", fontWeight:900, fontSize:"clamp(3.5rem,10vw,8.5rem)", lineHeight:0.85, letterSpacing:"-0.03em", textTransform:"uppercase", color:"#fff" }}>AMAR</span>
+                <span style={{ display:"block", fontWeight:900, fontSize:"clamp(2.5rem,6.5vw,5.2rem)", lineHeight:0.88, letterSpacing:"-0.03em", textTransform:"uppercase", color:"#fff" }}>AMAR</span>
               </motion.div>
             </div>
 
             {/* JEANS */}
             <div style={{ overflow:"hidden", marginBottom:6 }}>
               <motion.div initial={{ y:"110%" }} animate={loaded?{ y:0 }:{}} transition={{ duration:0.9, delay:0.35, ease:[0.76,0,0.24,1] }}>
-                <span style={{ display:"block", fontWeight:900, fontSize:"clamp(3.5rem,10vw,8.5rem)", lineHeight:0.85, letterSpacing:"-0.03em", textTransform:"uppercase", color:"#fff" }}>JEANS</span>
+                <span style={{ display:"block", fontWeight:900, fontSize:"clamp(2.5rem,6.5vw,5.2rem)", lineHeight:0.88, letterSpacing:"-0.03em", textTransform:"uppercase", color:"#fff" }}>JEANS</span>
               </motion.div>
             </div>
 
             {/* SLIDE LABEL - RED */}
-            <div style={{ overflow:"hidden", marginBottom:36 }}>
+            <div style={{ overflow:"hidden", marginBottom:32 }}>
               <motion.div initial={{ y:"110%" }} animate={loaded?{ y:0 }:{}} transition={{ duration:1, delay:0.5, ease:[0.76,0,0.24,1] }}>
                 <AnimatePresence mode="wait">
                   <motion.span key={slide+"-label"}
                     initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-20 }} transition={{ duration:0.5 }}
-                    style={{ display:"block", fontWeight:900, fontSize:"clamp(3.5rem,10vw,8.5rem)", lineHeight:0.85, letterSpacing:"-0.03em", textTransform:"uppercase", color:"#dc2626" }}>
+                    style={{ display:"block", fontWeight:900, fontSize:"clamp(2.5rem,6.5vw,5.2rem)", lineHeight:0.88, letterSpacing:"-0.03em", textTransform:"uppercase", color:"#dc2626" }}>
                     {SLIDES[slide].label}
                   </motion.span>
                 </AnimatePresence>

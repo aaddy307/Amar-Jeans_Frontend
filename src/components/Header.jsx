@@ -70,7 +70,7 @@ export default function Header() {
         </div>
 
         {/* Main Header Row */}
-        <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-3 flex items-center justify-between gap-6">
+        <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-2.5 flex items-center justify-between gap-4 md:gap-6">
           {/* Logo */}
           <Link href="/">
             <motion.div
@@ -81,13 +81,13 @@ export default function Header() {
               <img
                 src="/image.png"
                 alt="AMAR JEANS"
-                style={{ height: 64, width: "auto", objectFit: "contain", flexShrink: 0 }}
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain shrink-0"
               />
             </motion.div>
           </Link>
 
           {/* Desktop Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-2xl relative">
+          <div className="hidden md:flex flex-1 max-w-xl relative">
             <form onSubmit={handleSearch} className="w-full flex relative">
               <input
                 type="text"
@@ -99,11 +99,11 @@ export default function Header() {
                 onFocus={() => setShowSuggestions(true)}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 placeholder="Search for denim, jackets, cargo jeans..."
-                style={{ fontSize: "0.95rem", padding: "14px 20px" }}
+                style={{ fontSize: "0.875rem", padding: "10px 16px" }}
                 className="w-full bg-muted/30 border-2 border-border text-foreground rounded-none outline-none focus:border-foreground transition-colors placeholder:text-muted-foreground font-medium"
               />
-              <button type="submit" className="absolute right-0 top-0 bottom-0 px-5 bg-foreground text-background hover:bg-primary transition-colors flex items-center justify-center">
-                <Search className="w-6 h-6" />
+              <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 bg-foreground text-background hover:bg-primary transition-colors flex items-center justify-center">
+                <Search className="w-5 h-5" />
               </button>
             </form>
 
@@ -149,36 +149,37 @@ export default function Header() {
           </div>
 
           {/* Right side (Cart Icon) */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
             <Link href="/cart">
               <motion.div
-                className="relative flex flex-col items-center gap-1 text-foreground hover:text-primary transition-colors cursor-pointer"
+                className="relative flex flex-col items-center gap-0.5 text-foreground hover:text-primary transition-colors cursor-pointer"
                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               >
                 <div className="relative">
-                  <ShoppingBag style={{ width: 30, height: 30, strokeWidth: 1.5 }} />
+                  <ShoppingBag className="w-6 h-6 stroke-[1.5]" />
                   <AnimatePresence>
                     {itemCount > 0 && (
                       <motion.span
                         key="badge"
                         initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                        style={{ position: "absolute", top: -8, right: -8, background: "var(--primary)", color: "#fff", fontSize: "0.65rem", fontWeight: 900, width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid var(--background)" }}
+                        style={{ position: "absolute", top: -6, right: -8, background: "var(--primary)", color: "#fff", fontSize: "0.6rem", fontWeight: 900, width: 18, height: 18, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid var(--background)" }}
                       >
                         {itemCount > 9 ? "9+" : itemCount}
                       </motion.span>
                     )}
                   </AnimatePresence>
                 </div>
-                <span style={{ fontSize: "0.7rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em" }} className="hidden lg:block">Cart</span>
+                <span style={{ fontSize: "0.65rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em" }} className="hidden lg:block">Cart</span>
               </motion.div>
             </Link>
 
             {/* Mobile menu toggle */}
             <button
-              className="lg:hidden p-1 text-foreground hover:text-primary transition-colors"
+              className="lg:hidden p-1 text-foreground hover:text-primary transition-colors bg-transparent border-none cursor-pointer"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle Navigation Menu"
             >
-              {mobileOpen ? <X style={{ width: 28, height: 28 }} /> : <Menu style={{ width: 28, height: 28 }} />}
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
@@ -344,7 +345,7 @@ export default function Header() {
       </motion.header>
 
       {/* Spacer for fixed header */}
-      <div style={{ height: 140, background: "var(--background)" }} />
+      <div className="h-[115px] md:h-[135px] bg-background" />
 
     </>
   );

@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/contexts/CartContext";
-import { ShoppingBag, Plus, Minus, Trash2, ArrowRight, ChevronLeft, Send } from "lucide-react";
+import { ShoppingBag, Plus, Minus, Trash2, ArrowRight, ChevronLeft, Send, X } from "lucide-react";
 import Link from "next/link";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -64,195 +64,191 @@ export default function CartPage() {
     }
   };
 
-  const inputClass = "w-full bg-background border-2 border-border px-4 py-3 font-semibold text-base outline-none focus:border-foreground transition-colors rounded-none";
-  const labelClass = "text-sm font-black uppercase tracking-widest text-foreground block mb-2";
+  const inputClass = "w-full bg-background border-2 border-border px-3.5 py-2.5 font-semibold text-xs sm:text-sm outline-none focus:border-foreground transition-colors rounded-none";
+  const labelClass = "text-xs font-black uppercase tracking-wider text-foreground block mb-1.5";
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--background)", padding: "48px 24px" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <div className="min-h-screen bg-background py-6 px-4 sm:px-6 md:py-10 md:px-8">
+      <div className="max-w-5xl mx-auto w-full">
 
-        {/* Back Button */}
+        {/* Back Button & Title Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-          <Link href="/products">
-            <button style={{
-              display: "flex", alignItems: "center", gap: 8,
-              color: "var(--muted-foreground)", fontWeight: 800,
-              fontSize: "0.85rem", letterSpacing: "0.15em", textTransform: "uppercase",
-              marginBottom: 32, background: "none", border: "none", cursor: "pointer"
-            }}
-              onMouseEnter={e => e.currentTarget.style.color = "var(--foreground)"}
-              onMouseLeave={e => e.currentTarget.style.color = "var(--muted-foreground)"}
-            >
-              <ChevronLeft style={{ width: 20, height: 20 }} />
+          <Link href="/products" className="inline-block">
+            <button className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground font-bold text-xs uppercase tracking-wider mb-4 bg-transparent border-none cursor-pointer transition-colors p-0">
+              <ChevronLeft className="w-4 h-4" />
               Continue Shopping
             </button>
           </Link>
 
-          <h1 style={{
-            fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900,
-            color: "var(--foreground)", textTransform: "uppercase",
-            letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 12
-          }}>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground uppercase tracking-tight leading-none mb-1.5">
             Shopping Bag &amp; Enquiry
           </h1>
-          <p style={{ color: "var(--muted-foreground)", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 48 }}>
-            {items.length} item{items.length !== 1 ? "s" : ""}
+          <p className="text-muted-foreground font-bold text-xs uppercase tracking-widest mb-6 md:mb-8">
+            {items.length} {items.length === 1 ? "item" : "items"} in your cart
           </p>
         </motion.div>
 
         {/* Empty State */}
         {items.length === 0 ? (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-            style={{ textAlign: "center", padding: "96px 32px", border: "1px solid var(--border)", background: "var(--muted)", marginTop: 16 }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-14 px-6 border border-border bg-muted/20 my-4"
           >
-            <ShoppingBag style={{ width: 80, height: 80, color: "var(--muted-foreground)", margin: "0 auto 24px", strokeWidth: 1 }} />
-            <h2 style={{ fontSize: "2rem", fontWeight: 900, color: "var(--foreground)", textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: 12 }}>
+            <ShoppingBag className="w-12 h-12 text-muted-foreground mx-auto mb-4 stroke-[1.2]" />
+            <h2 className="text-lg sm:text-xl font-black text-foreground uppercase tracking-tight mb-1.5">
               Your Bag is Empty
             </h2>
-            <p style={{ color: "var(--muted-foreground)", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 40 }}>
-              Browse our denim catalog and add your favourite fits.
+            <p className="text-muted-foreground font-bold text-xs uppercase tracking-wider mb-6">
+              Browse our premium denim catalog and add your favourite fits.
             </p>
             <Link href="/products">
               <motion.button
                 whileTap={{ scale: 0.97 }}
-                style={{ background: "var(--foreground)", color: "var(--background)", fontWeight: 900, fontSize: "0.9rem", letterSpacing: "0.18em", textTransform: "uppercase", padding: "18px 48px", border: "none", cursor: "pointer" }}
-                onMouseEnter={e => e.currentTarget.style.background = "var(--primary)"}
-                onMouseLeave={e => e.currentTarget.style.background = "var(--foreground)"}
+                className="bg-foreground text-background font-black text-xs uppercase tracking-widest px-7 py-3 border-none cursor-pointer hover:bg-primary transition-colors"
               >
                 Explore Shop
               </motion.button>
             </Link>
           </motion.div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 32 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start w-full">
 
-            {/* Items + Summary side by side on desktop */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 32 }} className="cart-grid">
-              
-              {/* Items List */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <AnimatePresence>
-                  {items.map((item) => (
-                    <motion.div
-                      key={item.lineId}
-                      layout
-                      initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10, height: 0 }}
-                      style={{ background: "var(--background)", border: "1px solid var(--border)", padding: "24px", display: "flex", gap: 24, alignItems: "center" }}
-                    >
-                      {/* Product Image */}
-                      <div style={{ width: 100, height: 130, flexShrink: 0, background: "var(--muted)", border: "1px solid var(--border)", overflow: "hidden" }}>
-                        {item.image
-                          ? <img src={item.image.url} alt={item.productTitle} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                          : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                              <ShoppingBag style={{ width: 36, height: 36, color: "var(--muted-foreground)" }} />
-                            </div>
-                        }
-                      </div>
+            {/* Cart Items List (7 cols on desktop) */}
+            <div className="lg:col-span-7 flex flex-col gap-3 sm:gap-4 w-full min-w-0">
+              <AnimatePresence initial={false}>
+                {items.map((item) => (
+                  <motion.div
+                    key={item.lineId}
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="bg-card border border-border p-3 sm:p-4 flex gap-3 sm:gap-4 items-center w-full min-w-0 overflow-hidden"
+                  >
+                    {/* Product Image */}
+                    <div className="w-[72px] h-[92px] sm:w-[84px] sm:h-[108px] shrink-0 bg-muted border border-border/80 overflow-hidden flex items-center justify-center">
+                      {item.image ? (
+                        <img
+                          src={item.image.url}
+                          alt={item.productTitle}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <ShoppingBag className="w-7 h-7 text-muted-foreground stroke-1" />
+                      )}
+                    </div>
 
-                      {/* Info */}
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <h3 style={{ color: "var(--foreground)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.01em", fontSize: "1.1rem", marginBottom: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {/* Info and Actions Container */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
+                      {/* Top row: Title + Delete button */}
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="text-xs sm:text-sm md:text-base font-bold text-foreground uppercase tracking-wide truncate leading-tight">
                           {item.productTitle}
                         </h3>
-                        {item.variantTitle && item.variantTitle !== "Default Title" && (
-                          <p style={{ color: "var(--muted-foreground)", fontWeight: 700, fontSize: "0.8rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 8 }}>
-                            Size: {item.variantTitle}
-                          </p>
-                        )}
-                        <p style={{ color: "var(--foreground)", fontWeight: 900, fontSize: "1.3rem" }}>
-                          Rs.{item.unitPrice?.amount}
-                        </p>
-                      </div>
-
-                      {/* Controls */}
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 16 }}>
                         <button
                           onClick={() => removeItem(item.lineId)}
                           disabled={loading}
-                          style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-foreground)", padding: 4 }}
-                          onMouseEnter={e => e.currentTarget.style.color = "#dc2626"}
-                          onMouseLeave={e => e.currentTarget.style.color = "var(--muted-foreground)"}
+                          aria-label="Remove item"
+                          className="text-muted-foreground hover:text-red-600 p-1 cursor-pointer transition-colors shrink-0 bg-transparent border-none"
                         >
-                          <Trash2 style={{ width: 20, height: 20 }} />
+                          <Trash2 className="w-4 h-4" />
                         </button>
+                      </div>
 
-                        <div style={{ display: "flex", alignItems: "center", border: "1px solid var(--border)" }}>
+                      {/* Variant / Size info */}
+                      {item.variantTitle && item.variantTitle !== "Default Title" && (
+                        <p className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                          Size: {item.variantTitle}
+                        </p>
+                      )}
+
+                      {/* Bottom row: Unit Price & Quantity Stepper */}
+                      <div className="flex items-center justify-between gap-2 mt-2 pt-1 border-t border-border/40 sm:border-0 sm:pt-0">
+                        <div className="text-xs sm:text-sm md:text-base font-black text-foreground">
+                          Rs.{item.unitPrice?.amount}
+                        </div>
+
+                        {/* Quantity Counter */}
+                        <div className="flex items-center border border-border bg-background">
                           <button
                             onClick={() => updateQuantity(item.lineId, item.quantity - 1)}
                             disabled={loading}
-                            style={{ padding: "10px 14px", background: "none", border: "none", cursor: "pointer", color: "var(--muted-foreground)", fontSize: "1.1rem", display: "flex", alignItems: "center" }}
-                            onMouseEnter={e => { e.currentTarget.style.background = "var(--muted)"; e.currentTarget.style.color = "var(--foreground)"; }}
-                            onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "var(--muted-foreground)"; }}
+                            aria-label="Decrease quantity"
+                            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-50"
                           >
-                            <Minus style={{ width: 16, height: 16 }} />
+                            <Minus className="w-3.5 h-3.5" />
                           </button>
-                          <span style={{ color: "var(--foreground)", fontWeight: 900, width: 44, textAlign: "center", fontSize: "1rem" }}>
+                          <span className="w-7 sm:w-8 text-center text-xs sm:text-sm font-black text-foreground select-none">
                             {item.quantity}
                           </span>
                           <button
                             onClick={() => updateQuantity(item.lineId, item.quantity + 1)}
                             disabled={loading}
-                            style={{ padding: "10px 14px", background: "none", border: "none", cursor: "pointer", color: "var(--muted-foreground)", fontSize: "1.1rem", display: "flex", alignItems: "center" }}
-                            onMouseEnter={e => { e.currentTarget.style.background = "var(--muted)"; e.currentTarget.style.color = "var(--foreground)"; }}
-                            onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "var(--muted-foreground)"; }}
+                            aria-label="Increase quantity"
+                            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-50"
                           >
-                            <Plus style={{ width: 16, height: 16 }} />
+                            <Plus className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+
+            {/* Order Summary (5 cols on desktop) */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="lg:col-span-5 bg-card border border-border p-4 sm:p-5 md:p-6 lg:sticky lg:top-28 w-full"
+            >
+              <h2 className="text-xs sm:text-sm md:text-base font-black text-foreground uppercase tracking-tight pb-3 mb-4 border-b border-border">
+                Order &amp; Enquiry Summary
+              </h2>
+
+              <div className="flex flex-col gap-2.5 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Subtotal
+                  </span>
+                  <span className="text-xs sm:text-sm font-black text-foreground">
+                    Rs.{cart?.subtotal?.amount || 0}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-border">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Est. Shipping
+                  </span>
+                  <span className="text-xs font-bold text-emerald-600 uppercase">
+                    Calculated on Enquiry
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-1">
+                  <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-foreground">
+                    Total Amount
+                  </span>
+                  <span className="text-sm sm:text-base md:text-lg font-black text-foreground">
+                    Rs.{cart?.total?.amount || 0}
+                  </span>
+                </div>
               </div>
 
-              {/* Order Summary */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                style={{ background: "var(--background)", border: "1px solid var(--border)", padding: "32px" }}
+              <motion.button
+                onClick={() => setIsCheckoutOpen(true)}
+                disabled={loading || createOrder.isPending}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-foreground text-background hover:bg-primary font-black text-xs sm:text-sm uppercase tracking-wider py-3.5 px-4 flex items-center justify-center gap-2 border-none cursor-pointer transition-colors shadow-sm"
               >
-                <h2 style={{ fontSize: "1.4rem", fontWeight: 900, color: "var(--foreground)", textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: 24, paddingBottom: 16, borderBottom: "1px solid var(--border)" }}>
-                  Order &amp; Enquiry Summary
-                </h2>
+                Proceed to Submit Order / Enquiry
+                <ArrowRight className="w-4 h-4" />
+              </motion.button>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 24 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ color: "var(--muted-foreground)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>Subtotal</span>
-                    <span style={{ color: "var(--foreground)", fontWeight: 900, fontSize: "1.05rem" }}>Rs.{cart?.subtotal?.amount}</span>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: 16, borderBottom: "1px solid var(--border)" }}>
-                    <span style={{ color: "var(--muted-foreground)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>Est. Shipping</span>
-                    <span style={{ color: "#059669", fontWeight: 700, fontSize: "0.9rem" }}>Calculated on Enquiry</span>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ color: "var(--foreground)", fontWeight: 900, fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Total Amount</span>
-                    <span style={{ color: "var(--foreground)", fontWeight: 900, fontSize: "1.4rem" }}>Rs.{cart?.total?.amount}</span>
-                  </div>
-                </div>
-
-                <motion.button
-                  onClick={() => setIsCheckoutOpen(true)}
-                  disabled={loading || createOrder.isPending}
-                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                  style={{
-                    width: "100%", background: "var(--foreground)", color: "var(--background)",
-                    fontWeight: 900, fontSize: "0.9rem", letterSpacing: "0.15em", textTransform: "uppercase",
-                    padding: "20px 24px", border: "none", cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
-                    marginBottom: 16, transition: "background 0.2s"
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = "var(--primary)"}
-                  onMouseLeave={e => e.currentTarget.style.background = "var(--foreground)"}
-                >
-                  Proceed to Submit Order / Enquiry
-                  <ArrowRight style={{ width: 20, height: 20 }} />
-                </motion.button>
-
-                <p style={{ color: "var(--muted-foreground)", fontWeight: 600, fontSize: "0.78rem", textAlign: "center", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                  Instant Order Confirmation &amp; Direct WhatsApp Support
-                </p>
-              </motion.div>
-            </div>
+              <p className="text-[10px] sm:text-[11px] font-bold text-center uppercase tracking-wider text-muted-foreground mt-3 leading-tight">
+                Instant Order Confirmation &amp; Direct WhatsApp Support
+              </p>
+            </motion.div>
 
           </div>
         )}
@@ -261,72 +257,117 @@ export default function CartPage() {
         <AnimatePresence>
           {isCheckoutOpen && (
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4"
             >
               <motion.div
-                initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
-                style={{ background: "var(--background)", border: "1px solid var(--border)", width: "100%", maxWidth: 520, padding: "40px 36px", boxShadow: "0 25px 60px rgba(0,0,0,0.3)", position: "relative", maxHeight: "90vh", overflowY: "auto" }}
+                initial={{ scale: 0.96, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.96, opacity: 0 }}
+                className="bg-background border border-border w-full max-w-md p-4 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto"
               >
                 <button
                   onClick={() => setIsCheckoutOpen(false)}
-                  style={{ position: "absolute", top: 20, right: 20, background: "none", border: "none", cursor: "pointer", color: "var(--muted-foreground)", fontWeight: 900, fontSize: "1.2rem" }}
+                  aria-label="Close modal"
+                  className="absolute top-3.5 right-3.5 text-muted-foreground hover:text-foreground p-1 bg-transparent border-none cursor-pointer transition-colors"
                 >
-                  ✕
+                  <X className="w-5 h-5" />
                 </button>
 
-                <h3 style={{ fontSize: "1.6rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em", color: "var(--foreground)", marginBottom: 8 }}>
+                <h3 className="text-base sm:text-lg font-black uppercase tracking-tight text-foreground mb-1">
                   Submit Order &amp; Details
                 </h3>
-                <p style={{ color: "var(--muted-foreground)", fontWeight: 600, fontSize: "0.85rem", marginBottom: 32, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">
                   Fill your contact details to submit order
                 </p>
 
-                <form onSubmit={handleCheckoutSubmit} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <form onSubmit={handleCheckoutSubmit} className="flex flex-col gap-3.5">
                   <div>
                     <label className={labelClass}>Full Name *</label>
-                    <input type="text" value={orderForm.name} onChange={e => setOrderForm({ ...orderForm, name: e.target.value })}
-                      className={inputClass} placeholder="Your full name" required />
+                    <input
+                      type="text"
+                      value={orderForm.name}
+                      onChange={e => setOrderForm({ ...orderForm, name: e.target.value })}
+                      className={inputClass}
+                      placeholder="Your full name"
+                      required
+                    />
                   </div>
                   <div>
                     <label className={labelClass}>Email Address *</label>
-                    <input type="email" value={orderForm.email} onChange={e => setOrderForm({ ...orderForm, email: e.target.value })}
-                      className={inputClass} placeholder="your.email@example.com" required />
+                    <input
+                      type="email"
+                      value={orderForm.email}
+                      onChange={e => setOrderForm({ ...orderForm, email: e.target.value })}
+                      className={inputClass}
+                      placeholder="your.email@example.com"
+                      required
+                    />
                   </div>
                   <div>
                     <label className={labelClass}>Phone Number *</label>
-                    <input type="tel" value={orderForm.phone} onChange={e => setOrderForm({ ...orderForm, phone: e.target.value })}
-                      className={inputClass} placeholder="+91 9876543210" required />
+                    <input
+                      type="tel"
+                      value={orderForm.phone}
+                      onChange={e => setOrderForm({ ...orderForm, phone: e.target.value })}
+                      className={inputClass}
+                      placeholder="+91 9876543210"
+                      required
+                    />
                   </div>
                   <div>
                     <label className={labelClass}>Shipping Address</label>
-                    <textarea value={orderForm.address} onChange={e => setOrderForm({ ...orderForm, address: e.target.value })}
-                      className={inputClass} rows={2} placeholder="House/Street/Flat No..." style={{ resize: "vertical" }} />
+                    <textarea
+                      value={orderForm.address}
+                      onChange={e => setOrderForm({ ...orderForm, address: e.target.value })}
+                      className={inputClass}
+                      rows={2}
+                      placeholder="House/Street/Flat No..."
+                      style={{ resize: "vertical" }}
+                    />
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className={labelClass}>City</label>
-                      <input type="text" value={orderForm.city} onChange={e => setOrderForm({ ...orderForm, city: e.target.value })}
-                        className={inputClass} placeholder="City" />
+                      <input
+                        type="text"
+                        value={orderForm.city}
+                        onChange={e => setOrderForm({ ...orderForm, city: e.target.value })}
+                        className={inputClass}
+                        placeholder="City"
+                      />
                     </div>
                     <div>
                       <label className={labelClass}>Pincode</label>
-                      <input type="text" value={orderForm.pincode} onChange={e => setOrderForm({ ...orderForm, pincode: e.target.value })}
-                        className={inputClass} placeholder="421501" />
+                      <input
+                        type="text"
+                        value={orderForm.pincode}
+                        onChange={e => setOrderForm({ ...orderForm, pincode: e.target.value })}
+                        className={inputClass}
+                        placeholder="421501"
+                      />
                     </div>
                   </div>
                   <div>
                     <label className={labelClass}>Special Notes</label>
-                    <textarea value={orderForm.notes} onChange={e => setOrderForm({ ...orderForm, notes: e.target.value })}
-                      className={inputClass} rows={2} placeholder="Custom size, fitting notes..." style={{ resize: "vertical" }} />
+                    <textarea
+                      value={orderForm.notes}
+                      onChange={e => setOrderForm({ ...orderForm, notes: e.target.value })}
+                      className={inputClass}
+                      rows={2}
+                      placeholder="Custom size, fitting notes..."
+                      style={{ resize: "vertical" }}
+                    />
                   </div>
                   <motion.button
                     type="submit"
                     disabled={createOrder.isPending}
-                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                    style={{ background: "var(--foreground)", color: "var(--background)", fontWeight: 900, fontSize: "0.9rem", letterSpacing: "0.15em", textTransform: "uppercase", padding: "18px 24px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, opacity: createOrder.isPending ? 0.6 : 1 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="bg-foreground text-background hover:bg-primary font-black text-xs sm:text-sm uppercase tracking-wider py-3.5 px-4 border-none cursor-pointer flex items-center justify-center gap-2 transition-colors mt-2 disabled:opacity-60"
                   >
-                    <Send style={{ width: 18, height: 18 }} />
+                    <Send className="w-4 h-4" />
                     {createOrder.isPending ? "Submitting Order..." : "Confirm & Submit Order"}
                   </motion.button>
                 </form>
@@ -336,15 +377,6 @@ export default function CartPage() {
         </AnimatePresence>
 
       </div>
-
-      <style>{`
-        @media (min-width: 900px) {
-          .cart-grid {
-            grid-template-columns: 1fr 380px !important;
-            align-items: start;
-          }
-        }
-      `}</style>
     </div>
   );
 }
