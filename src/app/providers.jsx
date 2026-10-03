@@ -9,19 +9,29 @@ import { CartProvider } from "@/contexts/CartContext";
 import { Toaster } from "sonner";
 
 function getBaseUrl() {
-  if (typeof window !== "undefined") {
-    // Browser should use relative path or configured backend
-    return process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  // If an explicit API URL is set via env, use it
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
   }
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  // In the browser, check the current hostname to detect Vercel/production
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    // Not localhost — assume production, use Render backend
+    if (host !== "localhost" && host !== "127.0.0.1") {
+      return "https://amar-jeans-backend.onrender.com";
+    }
+  }
+  return "http://localhost:5000";
 }
 
 export function Providers({ children }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 5 * 1000,
+        staleTime: 30 * 1000,           // 30s — reduce chatter
         refetchOnWindowFocus: false,
+        retry: 1,                        // only retry once on failure
+        retryDelay: 1000,
       }
     }
   }));

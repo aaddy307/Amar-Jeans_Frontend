@@ -156,6 +156,17 @@
   100% { transform: translateX(-50%); }
 }
 
+/* Spinner animation (used in admin loading states) */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Skeleton pulse animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
 .animate-marquee {
   animation: marquee 25s linear infinite;
 }

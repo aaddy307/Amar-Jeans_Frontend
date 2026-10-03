@@ -8,7 +8,10 @@ import { motion } from "framer-motion";
 
 export default function AdminOrdersPage() {
   const utils = trpc.useUtils();
-  const { data: orders = [], isLoading } = trpc.admin.getOrders.useQuery();
+  const { data: orders = [], isLoading, isError, error, refetch } = trpc.admin.getOrders.useQuery(undefined, {
+    retry: 1,
+    retryDelay: 1500,
+  });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -132,8 +135,23 @@ export default function AdminOrdersPage() {
 
       {/* ── ORDERS CARDS ── */}
       {isLoading ? (
-        <div style={{ padding: "64px 0", textAlign: "center", color: "#94a3b8", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase" }}>
-          Loading orders and customer inquiries...
+        <div style={{ padding: "64px 0", textAlign: "center", color: "#94a3b8", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
+          <div style={{ width: 36, height: 36, borderRadius: "50%", border: "3px solid #e2e8f0", borderTopColor: "#dc2626", animation: "spin 0.8s linear infinite" }} />
+          Loading orders and customer inquiries…
+          <span style={{ fontSize: "0.65rem", color: "#94a3b8" }}>Backend may be cold-starting, please wait ~15 seconds</span>
+        </div>
+      ) : isError ? (
+        <div style={{ padding: "64px 24px", textAlign: "center", border: "2px solid #fca5a5", background: "#fff7f7" }}>
+          <p style={{ fontSize: "0.9rem", fontWeight: 900, color: "#dc2626", textTransform: "uppercase", marginBottom: 8 }}>Failed to Load Orders</p>
+          <p style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748b", marginBottom: 20 }}>
+            {error?.message || "Cannot reach server. Check your connection or try again."}
+          </p>
+          <button
+            onClick={() => refetch()}
+            style={{ background: "#dc2626", color: "#ffffff", border: "none", padding: "10px 24px", fontWeight: 900, fontSize: "0.75rem", letterSpacing: "0.12em", textTransform: "uppercase", cursor: "pointer" }}
+          >
+            Retry
+          </button>
         </div>
       ) : paginatedOrders.length === 0 ? (
         <div style={{ padding: "64px 0", textAlign: "center", background: "#ffffff", border: "2px solid #000000", color: "#94a3b8", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase" }}>

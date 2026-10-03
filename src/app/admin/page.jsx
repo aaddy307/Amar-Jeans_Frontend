@@ -6,17 +6,40 @@ import { ShoppingBag, IndianRupee, Users, Package, ArrowUpRight, TrendingUp, Zap
 import Link from "next/link";
 
 export default function AdminDashboardPage() {
-  const { data: stats, isLoading } = trpc.admin.getDashboard.useQuery();
+  const { data: stats, isLoading, isError, error, refetch } = trpc.admin.getDashboard.useQuery(undefined, {
+    retry: 1,
+    retryDelay: 1500,
+  });
 
   if (isLoading) {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-        <div style={{ height: 40, width: 240, background: "#e2e8f0", borderRadius: 2 }} />
+        <div style={{ height: 40, width: 240, background: "#e2e8f0", borderRadius: 2, animation: "pulse 1.5s ease-in-out infinite" }} />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
           {[1, 2, 3, 4].map(i => (
-            <div key={i} style={{ height: 130, background: "#ffffff", border: "2px solid #000000" }} />
+            <div key={i} style={{ height: 130, background: "#f1f5f9", border: "2px solid #e2e8f0", animation: "pulse 1.5s ease-in-out infinite" }} />
           ))}
         </div>
+        <p style={{ textAlign: "center", fontSize: "0.72rem", fontWeight: 700, color: "#94a3b8", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 8 }}>
+          Connecting to server — this may take ~15 seconds if backend is cold-starting…
+        </p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div style={{ textAlign: "center", padding: "80px 24px", border: "2px solid #fca5a5", background: "#fff7f7" }}>
+        <p style={{ fontSize: "1rem", fontWeight: 900, color: "#dc2626", textTransform: "uppercase", letterSpacing: "-0.01em", marginBottom: 8 }}>Failed to Load Dashboard</p>
+        <p style={{ fontSize: "0.75rem", fontWeight: 700, color: "#64748b", marginBottom: 24 }}>
+          {error?.message || "Cannot reach server. Your session may have expired or the backend is offline."}
+        </p>
+        <button
+          onClick={() => refetch()}
+          style={{ background: "#dc2626", color: "#ffffff", border: "none", padding: "12px 28px", fontWeight: 900, fontSize: "0.78rem", letterSpacing: "0.15em", textTransform: "uppercase", cursor: "pointer" }}
+        >
+          Retry
+        </button>
       </div>
     );
   }
