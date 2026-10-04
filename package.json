@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3000",
+    "clean": "node -e \"import('fs').then(fs => fs.rmSync('.next', { recursive: true, force: true }))\"",
     "build": "next build",
     "start": "next start -p 3000"
   },
