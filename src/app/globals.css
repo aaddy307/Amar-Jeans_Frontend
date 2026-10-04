@@ -181,3 +181,100 @@
 .flex-col { flex-direction: column; }
 .antialiased { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 .flex-1 { flex: 1 1 0%; }
+
+/* ============================================
+   🔥 CRAZY TOAST NOTIFICATIONS
+   ============================================ */
+
+@keyframes toast-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(120%) scale(0.85) rotate(2deg);
+  }
+  60% {
+    transform: translateX(-8px) scale(1.03) rotate(-0.5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes toast-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes toast-glow-pulse {
+  0%, 100% { box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1.5px rgba(220,38,38,0.45), 0 0 20px rgba(220,38,38,0.15), inset 0 1px 0 rgba(255,255,255,0.07); }
+  50% { box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1.5px rgba(220,38,38,0.8), 0 0 35px rgba(220,38,38,0.3), inset 0 1px 0 rgba(255,255,255,0.1); }
+}
+
+/* Sonner's li wrapper — slide-in animation */
+[data-sonner-toast] {
+  animation: toast-slide-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+/* Success toast — red glow pulse (brand color) */
+.toast-success-crazy {
+  animation: toast-slide-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             toast-glow-pulse 2s ease-in-out 0.5s infinite !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer streak across the toast on appear */
+.toast-success-crazy::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255,255,255,0.08) 45%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.08) 55%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: toast-shimmer 0.8s ease-out 0.1s 1 forwards;
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+/* Error toast — darker red pulse */
+.toast-error-crazy {
+  animation: toast-slide-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1.5px rgba(220,38,38,0.7), 0 0 30px rgba(220,38,38,0.25), inset 0 1px 0 rgba(255,255,255,0.07) !important;
+}
+
+/* Icon inside toast */
+[data-sonner-toast] [data-icon] svg {
+  filter: drop-shadow(0 0 6px rgba(220,38,38,0.6));
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Toast title text */
+[data-sonner-toast] [data-title] {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+}
+
+/* Close button */
+[data-sonner-toast] [data-close-button] {
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 8px !important;
+  color: rgba(255,255,255,0.6) !important;
+  transition: all 0.2s ease !important;
+}
+[data-sonner-toast] [data-close-button]:hover {
+  background: rgba(220,38,38,0.25) !important;
+  color: #fff !important;
+  border-color: rgba(220,38,38,0.5) !important;
+}
+

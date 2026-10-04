@@ -55,7 +55,7 @@ export default function Footer() {
           <h3 className="text-sm font-black uppercase tracking-widest mb-6">Support & Enquiry</h3>
           <ul className="space-y-4">
             <li><Link href="/contact"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">Contact & Enquiry</span></Link></li>
-            <li><Link href="/about"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">About Us</span></Link></li>
+
             <li><Link href="/cart"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">View Cart / Enquiry</span></Link></li>
             <li><Link href="/signin"><span className="text-xs font-bold uppercase tracking-widest text-background/80 hover:text-primary transition-colors cursor-pointer">Admin Login</span></Link></li>
           </ul>
@@ -67,8 +67,8 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} AMAR JEANS. All Rights Reserved.
         </p>
         <div className="flex gap-4">
-          <Link href="/about"><span className="text-[10px] font-bold uppercase tracking-widest text-background/60 cursor-pointer hover:text-primary">Privacy Policy</span></Link>
-          <Link href="/about"><span className="text-[10px] font-bold uppercase tracking-widest text-background/60 cursor-pointer hover:text-primary">Terms of Service</span></Link>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-background/60">Privacy Policy</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-background/60">Terms of Service</span>
         </div>
       </div>
     </footer>
